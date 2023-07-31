@@ -1,0 +1,42 @@
+name: Develop
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          dry_run: true
+          create_annotated_tag: true
+          pre_release_branches: release*  
+          append_to_pre_release_tag: false
+      - name: Create Branch
+        run: |
+          BRANCH_NAME="release/${{ steps.tag_version.outputs.new_tag }}"
+          COMMIT_SHA=$(gh api /repos/${{github.repository}}/branches/main --jq '.commit.sha')
+
+          gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          /repos/${{github.repository}}/git/refs \
+          -f "ref=refs/heads/${BRANCH_NAME}" -f "sha=${COMMIT_SHA}"
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Create Pull Request
+        run: |
+              gh pr create --base release/${{ steps.tag_version.outputs.new_tag }} --head develop \
+              --title "release/${{ steps.tag_version.outputs.new_tag }} <- develop" \
+              --body "This is an automated pull request to merge the changes from the feature branch to the release branch." \
+              --label "automated-pr"
+        env: 
+          GH_TOKEN: ${{ github.token }}
+      
