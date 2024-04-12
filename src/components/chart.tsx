@@ -1,4 +1,4 @@
-import { ChartProvider } from "@/hooks/use-chart";
+import { ChartData, ChartOptions, ChartProvider } from "@/lib/hooks/use-chart";
 import { ResponsiveLine } from "@nivo/line";
 import { ResponsivePie } from "@nivo/pie";
 import React from "react";
@@ -11,15 +11,11 @@ const Chart: React.FC<ChartProps> = ({ provider }) => {
 	const { type, options, data } = provider;
 
 	const ChartComponent = {
-		line: ResponsiveLine,
-		doughnut: ResponsivePie,
+		line: <ResponsiveLine data={data as ChartData["line"]} {...(options as ChartOptions["line"])} />,
+		doughnut: <ResponsivePie data={data as ChartData["doughnut"]} {...(options as ChartOptions["doughnut"])} />,
 	}[type];
 
-	return (
-		<div className="w-full h-full p-4">
-			<ChartComponent data={data} {...options} />
-		</div>
-	);
+	return <div className="w-full h-full p-4">{ChartComponent}</div>;
 };
 
 export default Chart;
