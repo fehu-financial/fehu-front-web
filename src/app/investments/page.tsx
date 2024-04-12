@@ -4,7 +4,7 @@ import Chart from "@/components/chart";
 import { NavLink } from "@/components/nav-link";
 import ChartCard from "@/components/stats-chart";
 import { SummaryStats } from "@/components/summary-stats";
-import useChart from "@/hooks/use-chart";
+import useChart from "@/lib/hooks/use-chart";
 import { CircleDollarSign, TrendingUp } from "lucide-react";
 
 export default function InvestmentsPage() {

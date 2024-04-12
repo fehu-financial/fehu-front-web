@@ -1,10 +1,10 @@
-import { ChartOptions } from "@/hooks/use-chart";
+import { ChartOptions } from "@/lib/hooks/use-chart";
+import { CommonPieProps, DefaultRawDatum } from "@nivo/pie/dist/types/types";
 import colors from "tailwindcss/colors";
-import theme from "tailwindcss/defaultTheme";
 
 type NivoRC = ChartOptions["doughnut" | "line"];
 
-const legends = [
+const legends: CommonPieProps<DefaultRawDatum>["legends"] = [
 	{
 		anchor: "bottom",
 		direction: "row",
@@ -79,7 +79,17 @@ export const config: NivoRC = {
 			},
 		},
 		legends: {
-			hidden: { text: { fill: "#FFF", outlineColor: "#FFF" }, symbol: { opacity: 1, fill: "#333" } },
+			hidden: {
+				text: {
+					fontFamily: "sanserif",
+					fontSize: 12,
+					fill: "#fff",
+					outlineWidth: 0,
+					outlineColor: "transparent",
+					opacity: 0.5,
+				},
+				symbol: { opacity: 1, fill: "#333" },
+			},
 			title: {
 				text: {
 					fontSize: 16,
@@ -153,59 +163,61 @@ export const config: NivoRC = {
 			},
 		},
 	},
-	doughnut: {
-		innerRadius: 0.6,
-		padAngle: 0.7,
-		cornerRadius: 3,
-		activeOuterRadiusOffset: 8,
-		borderWidth: 1,
-		borderColor: {
-			from: "color",
-			modifiers: [["darker", 0.2]],
-		},
-		enableArcLinkLabels: false,
-		arcLabelsSkipAngle: 10,
-		legends,
+};
+
+export const doughnut: ChartOptions["doughnut"] = {
+	innerRadius: 0.6,
+	padAngle: 0.7,
+	cornerRadius: 3,
+	activeOuterRadiusOffset: 8,
+	borderWidth: 1,
+	borderColor: {
+		from: "color",
+		modifiers: [["darker", 0.2]],
 	},
-	line: {
-		xScale: { type: "point" },
-		yScale: {
-			type: "linear",
-			min: "auto",
-			max: "auto",
-			stacked: false,
-			reverse: false,
-		},
-		// yFormat: ">-.2f",
-		axisTop: null,
-		axisRight: null,
-		axisBottom: {
-			tickSize: 5,
-			tickPadding: 5,
-			tickRotation: 0,
-			legendOffset: 36,
-			legendPosition: "middle",
-			truncateTickAt: 0,
-		},
-		axisLeft: {
-			tickSize: 5,
-			tickPadding: 5,
-			tickRotation: 0,
-			legendOffset: -40,
-			legendPosition: "middle",
-			truncateTickAt: 0,
-		},
-		pointSize: 5,
-		pointColor: { theme: "background" },
-		pointBorderWidth: 2,
-		pointBorderColor: { from: "serieColor" },
-		pointLabelYOffset: -12,
-		enableTouchCrosshair: true,
-		useMesh: true,
-		enableGridX: false,
-		enableGridY: false,
-		enableSlices: "x",
-		enableCrosshair: true,
-		legends,
+	enableArcLinkLabels: false,
+	arcLabelsSkipAngle: 10,
+	legends,
+};
+
+export const line: ChartOptions["line"] = {
+	xScale: { type: "point" },
+	yScale: {
+		type: "linear",
+		min: "auto",
+		max: "auto",
+		stacked: false,
+		reverse: false,
 	},
+	// yFormat: ">-.2f",
+	axisTop: null,
+	axisRight: null,
+	axisBottom: {
+		tickSize: 5,
+		tickPadding: 5,
+		tickRotation: 0,
+		legendOffset: 36,
+		legendPosition: "middle",
+		truncateTickAt: 0,
+	},
+	axisLeft: {
+		tickSize: 5,
+		tickPadding: 5,
+		tickRotation: 0,
+		legendOffset: -40,
+		legendPosition: "middle",
+		truncateTickAt: 0,
+	},
+	pointSize: 5,
+	pointColor: { theme: "background" },
+	pointBorderWidth: 2,
+	pointBorderColor: { from: "serieColor" },
+	pointLabelYOffset: -12,
+	enableTouchCrosshair: true,
+	useMesh: true,
+	enableGridX: false,
+	enableGridY: false,
+	enableSlices: "x",
+	enableCrosshair: true,
+	legends,
 };
