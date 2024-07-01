@@ -1,16 +1,16 @@
-'use client'
+"use client";
 
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
-import { Toggle } from "@/components/ui/toggle";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Toggle } from "@/components/ui/toggle";
 
-import { Eye, Bell, EyeOff } from "lucide-react";
 import useToggle from "@/lib/hooks/useToggle";
+import { Bell, Eye, EyeOff } from "lucide-react";
 
 export function Header() {
-	const [isToggled, toggle]  = useToggle();
+	const [isToggled, toggle] = useToggle();
 	return (
 		<header className="col-start-2 row-start-1 flex justify-between p-4 mx-10">
 			<div />

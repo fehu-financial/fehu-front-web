@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { HTMLAttributes } from "react";
+import type { HTMLAttributes } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 type ChartCardProps = {

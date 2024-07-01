@@ -1,7 +1,7 @@
-import { ChartData, ChartOptions, ChartProvider } from "@/lib/hooks/use-chart";
+import type { ChartData, ChartOptions, ChartProvider } from "@/lib/hooks/use-chart";
 import { ResponsiveLine } from "@nivo/line";
 import { ResponsivePie } from "@nivo/pie";
-import React from "react";
+import type React from "react";
 
 interface ChartProps {
 	provider: ChartProvider;
