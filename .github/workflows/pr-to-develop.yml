@@ -33,4 +33,4 @@ jobs:
           labels: automated-pr
           draft: false
           delete-branch: false
-          commit-message: ":robot: ci: automated change"
+          commit-message: ":alien: ci: automated change"
