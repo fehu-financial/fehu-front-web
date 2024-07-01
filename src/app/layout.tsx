@@ -1,10 +1,10 @@
 import "./globals.css";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { cn } from "@/lib/utils";
-import { SideNav } from "@/components/layout/sidenav";
 import { Header } from "@/components/layout/header";
 import { Main } from "@/components/layout/main";
+import { SideNav } from "@/components/layout/sidenav";
+import { cn } from "@/lib/utils";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
