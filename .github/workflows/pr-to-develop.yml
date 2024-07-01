@@ -1,0 +1,35 @@
+name: Open Pull Request to Development
+on:
+  push:
+    branches:
+      - feature/*
+      - fix/*
+jobs:
+  open-pr-to-develop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+      - uses: pnpm/action-setup@v3
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: true
+      - name: Run Linter
+        run: pnpm run lint
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "development <- {{ github.head_ref }}"
+          body: |
+            This is an automated pull request to merge the changes from the feature branch to the development branch.
+          branch: develop
+          labels: automated-pr
+          draft: false
+          delete-branch: false
