@@ -1,10 +1,10 @@
 "use client";
 
-import { CandlestickChart, CreditCard, PiggyBank, Landmark, LayoutDashboard } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { CandlestickChart, CreditCard, Landmark, LayoutDashboard, PiggyBank } from "lucide-react";
 import Image from "next/image";
-import { Sidebar, SidebarMenu, SidebarMenuItem } from "../ui/sidebar";
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
+import { Sidebar, SidebarMenu, SidebarMenuItem } from "../ui/sidebar";
 
 export function SideNav() {
 	const router = useRouter();
