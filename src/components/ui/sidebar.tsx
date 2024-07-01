@@ -1,7 +1,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
-import { Button, ButtonProps } from "@/components/ui/button";
-import { LucideIcon } from "lucide-react";
+import { Button, type ButtonProps } from "@/components/ui/button";
+import type { LucideIcon } from "lucide-react";
 
 const Sidebar = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(({ className, children }, ref) => (
   <aside className={cn("pb-12 border-r", className)} ref={ref}>
