@@ -1,5 +1,5 @@
-import { LineProps, LineSvgProps } from "@nivo/line";
-import { DataProps, DefaultRawDatum, MayHaveLabel, PieSvgProps } from "@nivo/pie";
+import type { LineProps, LineSvgProps } from "@nivo/line";
+import type { DataProps, DefaultRawDatum, MayHaveLabel, PieSvgProps } from "@nivo/pie";
 import { config, doughnut, line } from "nivo.config";
 import { useEffect, useState } from "react";
 
