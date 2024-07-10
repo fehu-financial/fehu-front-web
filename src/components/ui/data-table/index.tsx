@@ -6,15 +6,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 
 interface DataTableProps<TData> {
 	table: TableDef<TData>;
-	toolbar?: any;
+	toolbar?: React.ReactNode;
 }
 
 function DataTable<TData>({ table, toolbar }: DataTableProps<TData>) {
-	// const [rowSelection, setRowSelection] = React.useState({});
-	// const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-	// const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-	// const [sorting, setSorting] = React.useState<SortingState>([]);
-
 	const columns = table.getAllColumns();
 
 	return (
