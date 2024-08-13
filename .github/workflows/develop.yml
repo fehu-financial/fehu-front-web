@@ -1,26 +1,21 @@
-name: Development Deployment
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+name: Develop
 on:
   push:
-    branches: 
+    branches:
       - develop
 jobs:
-  Deploy-Preview:
+  create-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
         with:
-          node-version: latest
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "${{ github.head_ref }} <- develop"
+          body: |
+            This is an automated pull request to merge the changes from the feature branch to the development branch.
+          branch: develop
+          base: ${{ github.head_ref }}
+          labels: automated-pr
+          delete-branch: true
+          commit-message: ":alien: ci: automated change"
