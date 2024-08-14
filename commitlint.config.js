@@ -1,1 +1,1 @@
-module.exports = {extends: ['gitmoji']};
+export default { extends: ["@commitlint/config-conventional"] };
