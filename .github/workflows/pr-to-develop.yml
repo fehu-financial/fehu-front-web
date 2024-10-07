@@ -24,9 +24,22 @@ jobs:
         run: pnpm run lint
       - name: Create Pull Request
         run: |
-              gh pr create --base develop --head ${{ github.ref_name }} \
-              --title "develop <- ${{ github.ref_name }}" \
-              --body "This is an automated pull request to merge the changes from the feature branch to the development branch." \
-              --label "automated-pr"
-        env: 
+          gh pr create --base develop --head ${{ github.ref_name }} \
+          --title "develop <- ${{ github.ref_name }}" \
+          --body "
+          ## 🚀 Descrição
+          Este PR automatizado mescla as alterações da branch \`${{ github.ref_name }}\` na branch \`develop\`.
+
+          ## 🔧 Alterações
+          - Descreva as principais mudanças aqui.
+
+          ## ✅ Checklist
+          - [ ] Código revisado
+          - [ ] Testes aprovados
+          - [ ] Documentação atualizada
+
+          🔄 *PR gerado automaticamente pelo CI/CD.*
+          " \
+          --label "automated"
+        env:
           GH_TOKEN: ${{ github.token }}
