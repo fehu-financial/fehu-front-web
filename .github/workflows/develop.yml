@@ -16,8 +16,8 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dry_run: true
           create_annotated_tag: true
-          pre_release_branches: release*  
-          append_to_pre_release_tag: false
+          pre_release_branches: "none"
+          tag_prefix: v
       - name: Create Branch
         run: |
           BRANCH_NAME="release/${{ steps.tag_version.outputs.new_tag }}"
@@ -33,10 +33,22 @@ jobs:
           GH_TOKEN: ${{ github.token }}
       - name: Create Pull Request
         run: |
-              gh pr create --base release/${{ steps.tag_version.outputs.new_tag }} --head develop \
-              --title "release/${{ steps.tag_version.outputs.new_tag }} <- develop" \
-              --body "This is an automated pull request to merge the changes from the feature branch to the release branch." \
-              --label "automated-pr"
-        env: 
+          gh pr create --base release/${{ steps.tag_version.outputs.new_tag }} --head develop \
+          --title "release/${{ steps.tag_version.outputs.new_tag }} <- develop" \
+          --body "
+          ## 🚀 Release Candidate ${{ steps.tag_version.outputs.new_tag }}
+          Este PR automatizado mescla as alterações da branch \`develop\` na branch \`release/${{ steps.tag_version.outputs.new_tag }}\`.
+
+          ## 🔧 Alterações
+          ${{ steps.tag_version.outputs.changelog }}
+
+          ## ✅ Checklist
+          - [ ] Código revisado
+          - [ ] Testes aprovados
+          - [ ] Documentação atualizada
+
+          🔄 *PR gerado automaticamente pelo CI/CD.*
+          " \
+          --label "automated"
+        env:
           GH_TOKEN: ${{ github.token }}
-      
