@@ -17,13 +17,6 @@ jobs:
           dry_run: true
           create_annotated_tag: true
           tag_prefix: v
-      - name: Create a GitHub release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release Candidate ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
-          prerelease: true
       - name: Create Branch
         run: |
           BRANCH_NAME="release/${{ steps.tag_version.outputs.new_tag }}"
