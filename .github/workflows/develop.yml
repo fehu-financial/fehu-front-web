@@ -16,7 +16,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dry_run: true
           create_annotated_tag: true
-          append_to_pre_release_tag: false
+          tag_prefix: v
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
