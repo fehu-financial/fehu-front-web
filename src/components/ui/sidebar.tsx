@@ -2,13 +2,16 @@ import { Button, type ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
 import React from "react";
+import { ScrollArea } from "./scroll-area";
 
 const Sidebar = React.forwardRef<
 	HTMLElement,
 	React.HTMLAttributes<HTMLElement>
 >(({ className, children }, ref) => (
-	<aside className={cn("pb-12 border-r", className)} ref={ref}>
-		<div className="space-y-4 py-4">{children}</div>
+	<aside className="hidden lg:flex flex-col items-center w-20 bg-background border-r">
+		<ScrollArea className="flex-1 w-full">
+			<nav className="flex flex-col items-center gap-4 py-4">{children}</nav>
+		</ScrollArea>
 	</aside>
 ));
 
