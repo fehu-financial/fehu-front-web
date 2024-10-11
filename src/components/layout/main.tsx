@@ -1,11 +1,17 @@
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+
 type MainProps = {
+	className?: string;
 	children: React.ReactNode;
 };
 
-export function Main({ children }: MainProps) {
+export function Main({ children, className }: MainProps) {
 	return (
-		<main className="col-start-2 row-start-2 flex flex-col flex-1 h-full mx-10 py-6 sm:px-6 lg:px-8 overflow-x-hidden overflow-y-auto no-scrollbar">
-			{children}
+		<main className={cn(className, "flex flex-1 overflow-hidden")}>
+			<ScrollArea className="w-full mx-auto sm:px-6 lg:px-10 py-4">
+				{children}
+			</ScrollArea>
 		</main>
 	);
 }
