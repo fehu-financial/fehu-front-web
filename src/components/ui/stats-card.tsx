@@ -26,7 +26,11 @@ const StatsCard = React.forwardRef<typeof Card, StatsCardProps>(
 				<CardContent className="text-2xl font-bold pb-2">{value}</CardContent>
 				<CardFooter>
 					<p className="text-sm leading-none font-normal text-muted-foreground">
-						{change && <span className={changeColor}>↑ {change}%</span>}{" "}
+						{change && (
+							<span className={changeColor}>
+								{change > 0 ? "↑" : "↓"} {change}%
+							</span>
+						)}{" "}
 						{description}
 					</p>
 				</CardFooter>
