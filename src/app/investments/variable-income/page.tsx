@@ -43,7 +43,8 @@ import { z } from "zod";
 import GoalBar from "./components/goal";
 
 export const AssetSchema = z.object({
-	id: z.string(),
+	ticker: z.string(),
+	image: z.string(),
 	name: z.string(),
 	position: z.number(),
 	allocation: z.number(),
@@ -61,8 +62,9 @@ export type Asset = z.infer<typeof AssetSchema>;
 
 const d_assets: Asset[] = [
 	{
-		id: "1",
-		name: "PETR4",
+		ticker: "PETR4",
+		image: "https://s3-symbol-logo.tradingview.com/brasileiro-petrobras.svg",
+		name: "Petrobras ON",
 		position: 10000,
 		allocation: 15,
 		profitability: 5.2,
@@ -75,8 +77,9 @@ const d_assets: Asset[] = [
 		sector: "Oil & Gas",
 	},
 	{
-		id: "2",
-		name: "VALE3",
+		ticker: "VALE3",
+		image: "https://s3-symbol-logo.tradingview.com/vale.svg",
+		name: "Vale ON",
 		position: 15000,
 		allocation: 22,
 		profitability: -2.1,
@@ -89,8 +92,9 @@ const d_assets: Asset[] = [
 		sector: "Mining",
 	},
 	{
-		id: "3",
-		name: "ITUB4",
+		ticker: "ITUB4",
+		image: "https://s3-symbol-logo.tradingview.com/itau-unibanco.svg",
+		name: "Itaú Unibanco PN",
 		position: 8000,
 		allocation: 12,
 		profitability: 3.7,
@@ -254,8 +258,8 @@ export default function VariableIncome() {
 								Asset Performance
 							</TabsTrigger>
 						</TabsList>
-						<TabsContent value="pie">None</TabsContent>
-						<TabsContent value="bar">
+						<TabsContent value="bar">None</TabsContent>
+						<TabsContent value="pie">
 							<DataTable
 								columns={columns}
 								data={assets}

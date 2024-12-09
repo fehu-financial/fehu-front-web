@@ -26,13 +26,13 @@ const columns: ColumnDef<Asset>[] = [
 		accessorKey: "name",
 		header: "Asset",
 		cell: ({ row }) => (
-			<div className="flex items-center space-x-2">
+			<div className="flex items-center space-x-2 min-w-52">
 				<img
-					src={`/placeholder.svg?height=32&width=32`}
+					src={row.original.image}
 					alt={`${row.original.name} logo`}
 					className="w-8 h-8 rounded-full"
 				/>
-				<span className="font-medium">{row.original.name}</span>
+				<span className="font-medium text-lg">{row.original.name}</span>
 			</div>
 		),
 	},
@@ -52,11 +52,21 @@ const columns: ColumnDef<Asset>[] = [
 			);
 		},
 		cell: ({ row }) => (
-			<div className="text-right font-medium">
+			<div className="text-right font-medium text-lg">
 				{row.original.position.toLocaleString("pt-BR", {
 					style: "currency",
 					currency: "BRL",
 				})}
+				<div className="text-xs text-muted-foreground">
+					<span>
+						Prc Médio{" "}
+						{row.original.averagePrice.toLocaleString("pt-BR", {
+							style: "currency",
+							currency: "BRL",
+						})}
+					</span>{" "}
+					<span>Qtd {row.original.totalQuantity}</span>
+				</div>
 			</div>
 		),
 	},
