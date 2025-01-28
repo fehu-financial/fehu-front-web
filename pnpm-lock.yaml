@@ -92,9 +92,6 @@ importers:
       recharts:
         specifier: ^2.14.1
         version: 2.14.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      table:
-        specifier: github:tanstack/table
-        version: https://codeload.github.com/tanstack/table/tar.gz/6b4d616dd7c8917616eb4fecaf09dda7030fd115
       tailwind-merge:
         specifier: ^2.5.5
         version: 2.5.5
@@ -2094,10 +2091,6 @@ packages:
   symbol-observable@4.0.0:
     resolution: {integrity: sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ==}
     engines: {node: '>=0.10'}
-
-  table@https://codeload.github.com/tanstack/table/tar.gz/6b4d616dd7c8917616eb4fecaf09dda7030fd115:
-    resolution: {tarball: https://codeload.github.com/tanstack/table/tar.gz/6b4d616dd7c8917616eb4fecaf09dda7030fd115}
-    version: 0.0.0
 
   tailwind-merge@2.5.5:
     resolution: {integrity: sha512-0LXunzzAZzo0tEPxV3I297ffKZPlKDrjj7NXphC8V5ak9yHC5zRmxnOe2m/Rd/7ivsOMJe3JZ2JVocoDdQTRBA==}
@@ -4113,8 +4106,6 @@ snapshots:
   supports-preserve-symlinks-flag@1.0.0: {}
 
   symbol-observable@4.0.0: {}
-
-  table@https://codeload.github.com/tanstack/table/tar.gz/6b4d616dd7c8917616eb4fecaf09dda7030fd115: {}
 
   tailwind-merge@2.5.5: {}
 

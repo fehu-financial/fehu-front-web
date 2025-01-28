@@ -1,11 +1,12 @@
 import type { Expense } from "@/@core/domain/expense";
+import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { WorkspaceSwitcher } from "@/components/ui/workspace-switch";
+import { PlusIcon } from "lucide-react";
 import AddExpenseForm from "./components/AddExpenseForm";
 import { ExpensesProvider } from "./components/ExpensesContext";
-import ExpensesOverview from "./components/ExpensesOverview";
-import ExpensesSummary from "./components/ExpensesSummary";
 import columns from "./components/columns";
+import { DataTableToolbar } from "./components/data-table-toolbar";
 
 export default function ExpensesPage() {
 	const mockData: Expense[] = [
@@ -108,18 +109,15 @@ export default function ExpensesPage() {
 		<ExpensesProvider>
 			<div className="min-h-full overflow-auto scrollbar-hide p-6">
 				<div className="flex justify-between items-center mb-8">
-					<h1 className="text-4xl font-bold mb-8">Expense Management</h1>
+					<h1 className="text-3xl font-bold mb-8">Expense Management</h1>
 					<WorkspaceSwitcher className="mb-8" />
 				</div>
-				<div className="grid gap-8 md:grid-cols-3">
-					<div className="md:col-span-2 space-y-8">
-						{/* <ExpensesOverview />
-						<ExpensesSummary /> */}
-						<DataTable columns={columns} data={mockData} />
-					</div>
-					<div className="space-y-8">
-						<AddExpenseForm />
-					</div>
+				<div className="flex">
+					<DataTable
+						columns={columns}
+						data={mockData}
+						toolbar={<DataTableToolbar />}
+					/>
 				</div>
 			</div>
 		</ExpensesProvider>

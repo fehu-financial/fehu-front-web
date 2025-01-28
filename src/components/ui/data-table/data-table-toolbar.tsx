@@ -14,12 +14,14 @@ interface DataTableToolbarProps<TData> {
 	facetedFilters?: {
 		[key: string]: string[];
 	};
+	customn?: React.ReactNode;
 	children?: React.ReactNode;
 }
 
 export function DataTableToolbar<TData>({
 	table,
 	facetedFilters,
+	customn,
 	children,
 }: DataTableToolbarProps<TData>) {
 	const isFiltered = table.getState().columnFilters.length > 0;
@@ -40,7 +42,7 @@ export function DataTableToolbar<TData>({
 	);
 
 	return (
-		<div className="flex items-center justify-between">
+		<div className="flex items-center justify-between space-x-2">
 			<div className="flex flex-1 items-center space-x-2">
 				<Input
 					placeholder="Filter tasks..."
@@ -63,6 +65,7 @@ export function DataTableToolbar<TData>({
 				)}
 				{children}
 			</div>
+			{customn}
 			<DataTableViewOptions table={table} />
 		</div>
 	);
