@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const ExpenseSchema = z.object({
+export const ExpenseSchema = z.object({
 	id: z.string(),
 	title: z.string().min(1, { message: "Title cannot be empty." }),
 	description: z.string().min(1, { message: "Description cannot be empty." }),

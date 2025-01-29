@@ -37,6 +37,25 @@ export const statuses = [
 	},
 ];
 
+export const recurrencies = [
+	{
+		id: "DAILY",
+		label: "Diário",
+	},
+	{
+		id: "WEEKLY",
+		label: "Semanal",
+	},
+	{
+		id: "MONTHLY",
+		label: "Mensal",
+	},
+	{
+		id: "YEARLY",
+		label: "Anual",
+	},
+];
+
 export const categories = [
 	{
 		id: "CREDIT_CARD",

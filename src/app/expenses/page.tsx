@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { WorkspaceSwitcher } from "@/components/ui/workspace-switch";
 import { PlusIcon } from "lucide-react";
-import AddExpenseForm from "./components/AddExpenseForm";
 import { ExpensesProvider } from "./components/ExpensesContext";
+import AddExpenseForm from "./components/add-expense-form";
 import columns from "./components/columns";
 import { DataTableToolbar } from "./components/data-table-toolbar";
 
@@ -105,6 +105,7 @@ export default function ExpensesPage() {
 			status: "PAID",
 		},
 	];
+
 	return (
 		<ExpensesProvider>
 			<div className="min-h-full overflow-auto scrollbar-hide p-6">

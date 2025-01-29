@@ -1,7 +1,6 @@
 "use client";
 
 import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
-import * as React from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -19,39 +18,18 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
+import { useWorkspace } from "@/hooks/use-workspace";
 import { cn } from "@/lib/utils";
-
-const workspaces = [
-	{
-		label: "Personal",
-		value: "personal",
-	},
-	{
-		label: "Work",
-		value: "work",
-	},
-	{
-		label: "Vacation",
-		value: "vacation",
-	},
-];
 
 type WorkspaceSwitcherProps = React.ComponentPropsWithoutRef<
 	typeof PopoverTrigger
 >;
 
 export function WorkspaceSwitcher({ className }: WorkspaceSwitcherProps) {
-	const [open, setOpen] = React.useState(false);
-	const [selectedWorkspace, setSelectedWorkspace] = React.useState<
-		| {
-				value: string;
-				label: string;
-		  }
-		| undefined
-	>(workspaces[0]);
+	const { currentWorkspace, listWorkspaces, changeWorkspace } = useWorkspace();
 
 	return (
-		<Popover open={open} onOpenChange={setOpen}>
+		<Popover>
 			<PopoverTrigger asChild>
 				<Button
 					variant="outline"
@@ -77,24 +55,21 @@ export function WorkspaceSwitcher({ className }: WorkspaceSwitcherProps) {
 						<CommandInput placeholder="Search workspace..." />
 						<CommandEmpty>No workspace found.</CommandEmpty>
 						<CommandGroup heading="Workspaces">
-							{workspaces.map((workspace) => (
+							{listWorkspaces().map((workspace) => (
 								<CommandItem
-									key={workspace.value}
-									onSelect={() => {
-										setSelectedWorkspace(workspace);
-										setOpen(false);
-									}}
+									key={workspace.id}
+									onSelect={() => changeWorkspace(workspace.id)}
 									className="text-sm"
 								>
 									<Avatar className="mr-2 h-5 w-5">
 										<AvatarImage
-											src={`https://avatar.vercel.sh/${workspace.value}.png`}
-											alt={workspace.label}
+											src="https://avatar.vercel.sh/satori"
+											alt={workspace.name}
 											className="grayscale"
 										/>
 										<AvatarFallback>SC</AvatarFallback>
 									</Avatar>
-									{workspace.label}
+									{workspace.name}
 									<Check
 										className={cn(
 											"ml-auto h-4 w-4",
