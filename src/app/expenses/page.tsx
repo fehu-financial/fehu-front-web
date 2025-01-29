@@ -1,10 +1,7 @@
 import type { Expense } from "@/@core/domain/expense";
-import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { WorkspaceSwitcher } from "@/components/ui/workspace-switch";
-import { PlusIcon } from "lucide-react";
-import { ExpensesProvider } from "./components/ExpensesContext";
-import AddExpenseForm from "./components/add-expense-form";
+import { WorkspaceProvider } from "@/context/workspace";
 import columns from "./components/columns";
 import { DataTableToolbar } from "./components/data-table-toolbar";
 
@@ -107,7 +104,7 @@ export default function ExpensesPage() {
 	];
 
 	return (
-		<ExpensesProvider>
+		<WorkspaceProvider>
 			<div className="min-h-full overflow-auto scrollbar-hide p-6">
 				<div className="flex justify-between items-center mb-8">
 					<h1 className="text-3xl font-bold mb-8">Expense Management</h1>
@@ -121,6 +118,6 @@ export default function ExpensesPage() {
 					/>
 				</div>
 			</div>
-		</ExpensesProvider>
+		</WorkspaceProvider>
 	);
 }

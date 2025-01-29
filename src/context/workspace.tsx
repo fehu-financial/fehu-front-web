@@ -1,3 +1,5 @@
+"use client";
+
 import type { Workspace } from "@/@core/domain/workspace";
 import { createContext, useCallback, useState } from "react";
 
@@ -25,7 +27,10 @@ export const WorkspaceProvider: React.FC<{ children: React.ReactNode }> = ({
 	);
 	const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
 
+	console.log(workspaces);
+
 	const createWorkspace = useCallback((input: Workspace) => {
+		console.log(input);
 		setWorkspaces((prev) => [...prev, input]);
 	}, []);
 
