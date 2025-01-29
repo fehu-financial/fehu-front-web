@@ -6,7 +6,7 @@ export default class Formatter {
 		}).format(value);
 	}
 
-	datetime(value: number | string | Date): string {
+	static datetime(value: number | string | Date): string {
 		const date = new Date(value);
 		const options: Intl.DateTimeFormatOptions = {
 			timeStyle: "medium",
@@ -16,12 +16,16 @@ export default class Formatter {
 		return Intl.DateTimeFormat("pt-BR", options).format(date);
 	}
 
-	date(value: number | string | Date): string {
+	static date(value: number | string | Date): string {
 		const date = new Date(value);
 		const options: Intl.DateTimeFormatOptions = {
 			dateStyle: "short",
 			hour12: false,
 		};
 		return Intl.DateTimeFormat("pt-BR", options).format(date);
+	}
+
+	none() {
+		return null;
 	}
 }

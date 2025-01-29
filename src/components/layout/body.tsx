@@ -13,7 +13,7 @@ export function Body({ children, className }: BodyProps) {
 	return (
 		<body
 			className={cn(
-				"grid lg:grid-cols-[80px,1fr] grid-cols-1 grid-rows-[70px,1fr] h-full antialiased",
+				"grid lg:grid-cols-[80px,1fr] grid-cols-1 grid-rows-[70px,1fr] h-screen antialiased",
 				isDarkMode ? "dark" : "light",
 				className,
 			)}
