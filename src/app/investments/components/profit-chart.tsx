@@ -71,7 +71,7 @@ const chartData = [
 const chartConfig = {
 	steps: {
 		label: "Steps",
-		color: "hsl(var(--chart-1))",
+		color: "var(--chart-1)",
 	},
 } satisfies ChartConfig;
 
@@ -122,7 +122,7 @@ const ProfitChart = () => {
 				/>
 				<ReferenceLine
 					y={1200}
-					stroke="hsl(var(--muted-foreground))"
+					stroke="var(--muted-foreground)"
 					strokeDasharray="3 3"
 					strokeWidth={1}
 				>
@@ -130,13 +130,13 @@ const ProfitChart = () => {
 						position="insideBottomLeft"
 						value="Average Steps"
 						offset={10}
-						fill="hsl(var(--foreground))"
+						fill="var(--foreground)"
 					/>
 					<Label
 						position="insideTopLeft"
 						value="12,343"
 						className="text-lg"
-						fill="hsl(var(--foreground))"
+						fill="var(--foreground)"
 						offset={10}
 						startOffset={100}
 					/>
