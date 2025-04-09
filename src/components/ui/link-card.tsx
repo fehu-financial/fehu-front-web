@@ -17,10 +17,7 @@ const LinkCard = ({ title, subtitle, href }: LinkCardProps) => {
 	const handleRouting = () => router.push(`${pathname}/${href}`);
 
 	return (
-		<Card
-			className="flex-1 flex items-center justify-between cursor-pointer hover:bg-accent"
-			onClick={handleRouting}
-		>
+		<Card className="flex-1 flex items-center justify-between cursor-pointer hover:bg-accent" onClick={handleRouting}>
 			<div>
 				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className="text-md font-bold">{title}</CardTitle>

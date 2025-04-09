@@ -20,11 +20,12 @@ export function date(value: number | string | Date): string {
 	const options: Intl.DateTimeFormatOptions = {
 		dateStyle: "short",
 		hour12: false,
+		timeZone: "UTC",
 	};
 	return Intl.DateTimeFormat("pt-BR", options).format(date);
 }
 
-export const Formatter = {
+export default {
 	date,
 	datetime,
 	currency,

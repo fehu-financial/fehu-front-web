@@ -1,20 +1,8 @@
 "use client";
 
-import {
-	Bar,
-	BarChart,
-	Label,
-	Rectangle,
-	ReferenceLine,
-	XAxis,
-} from "recharts";
+import { Bar, BarChart, Label, Rectangle, ReferenceLine, XAxis } from "recharts";
 
-import {
-	type ChartConfig,
-	ChartContainer,
-	ChartTooltip,
-	ChartTooltipContent,
-} from "@/components/ui/chart";
+import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import React from "react";
 
 const chartData = [
@@ -120,18 +108,8 @@ const ProfitChart = () => {
 					}
 					cursor={false}
 				/>
-				<ReferenceLine
-					y={1200}
-					stroke="hsl(var(--muted-foreground))"
-					strokeDasharray="3 3"
-					strokeWidth={1}
-				>
-					<Label
-						position="insideBottomLeft"
-						value="Average Steps"
-						offset={10}
-						fill="hsl(var(--foreground))"
-					/>
+				<ReferenceLine y={1200} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" strokeWidth={1}>
+					<Label position="insideBottomLeft" value="Average Steps" offset={10} fill="hsl(var(--foreground))" />
 					<Label
 						position="insideTopLeft"
 						value="12,343"

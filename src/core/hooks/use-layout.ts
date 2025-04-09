@@ -1,4 +1,4 @@
-import { LayoutContext, type LayoutContextProps } from "@/context/layout";
+import { LayoutContext, type LayoutContextProps } from "@/core/context/layout";
 import { useContext } from "react";
 
 export const useLayout = (): LayoutContextProps => {

@@ -44,15 +44,9 @@ const chartConfig = {
 
 export default function AllocationChart() {
 	return (
-		<ChartContainer
-			config={chartConfig}
-			className="mx-auto aspect-square h-[280px]"
-		>
+		<ChartContainer config={chartConfig} className="mx-auto aspect-square h-[280px]">
 			<PieChart margin={{ top: 15, left: -4, right: -4 }}>
-				<ChartTooltip
-					cursor={false}
-					content={<ChartTooltipContent hideLabel />}
-				/>
+				<ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
 				<Pie
 					data={chartData}
 					label
@@ -62,10 +56,7 @@ export default function AllocationChart() {
 					innerRadius={60}
 					strokeWidth={5}
 				/>
-				<ChartLegend
-					content={<ChartLegendContent nameKey="browser" />}
-					className="mt-6"
-				/>
+				<ChartLegend content={<ChartLegendContent nameKey="browser" />} className="mt-6" />
 			</PieChart>
 		</ChartContainer>
 	);

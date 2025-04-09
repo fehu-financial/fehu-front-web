@@ -1,0 +1,63 @@
+query GetExpenses($workspaceId: ID!, $workspaceType: WorkspaceType!) {
+	expenses(workspaceId: $workspaceId, workspaceType: $workspaceType) {
+		id
+		title
+		description
+		category
+		totalAmount
+		nextDueDate
+		recurrence {
+			interval
+			startDate
+			endDate
+			occurrences
+		}
+		installments {
+			current
+			total
+			remaining
+			amount
+		}
+		payments {
+			id
+			amount
+			type
+			dueDate
+			installmentNumber
+			paidAt
+		}
+		tags
+	}
+}
+
+mutation CreateExpense($createExpenseInput: CreateExpenseInput!) {
+	createExpense(input: $createExpenseInput) {
+		id
+		title
+		description
+		category
+		totalAmount
+		nextDueDate
+		recurrence {
+			interval
+			startDate
+			endDate
+			occurrences
+		}
+		installments {
+			current
+			total
+			remaining
+			amount
+		}
+		payments {
+			id
+			amount
+			type
+			dueDate
+			installmentNumber
+			paidAt
+		}
+		tags
+	}
+}

@@ -1,23 +1,10 @@
 "use client";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useLayout } from "@/hooks/use-layout";
-import { cn } from "@/lib/utils";
-import {
-	Bell,
-	CreditCard,
-	LayoutDashboard,
-	PieChart,
-	Target,
-	TrendingUp,
-	Wallet,
-} from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useLayout } from "@/core/hooks/use-layout";
+import { cn } from "@/core/lib/utils";
+import { Bell, CreditCard, LayoutDashboard, PieChart, Target, TrendingUp, Wallet } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
@@ -32,13 +19,7 @@ interface NavigationItemProps {
 	onClick: () => void;
 }
 
-const NavigationItem = ({
-	icon,
-	label,
-	path,
-	isActive,
-	onClick,
-}: NavigationItemProps) => (
+const NavigationItem = ({ icon, label, path, isActive, onClick }: NavigationItemProps) => (
 	<TooltipProvider>
 		<Tooltip>
 			<TooltipTrigger asChild>
@@ -87,28 +68,14 @@ export function Sidebar({ className }: SidebarProps) {
 		[],
 	);
 
-	const handleNavItemClick = useCallback(
-		(label: string) => setActiveItem(label),
-		[],
-	);
+	const handleNavItemClick = useCallback((label: string) => setActiveItem(label), []);
 
 	return (
 		<>
 			{/* Sidebar for larger screens */}
-			<aside
-				className={cn(
-					className,
-					"h-full hidden lg:flex flex-col items-center w-20 border-r",
-				)}
-			>
+			<aside className={cn(className, "h-full hidden lg:flex flex-col items-center w-20 border-r")}>
 				<ScrollArea className="flex-1 w-full">
-					<Image
-						className="dark:invert mx-auto my-4"
-						src="/fehu-logo.svg"
-						alt="Fehu Logo"
-						width={20}
-						height={20}
-					/>
+					<Image className="dark:invert mx-auto my-4" src="/fehu-logo.svg" alt="Fehu Logo" width={20} height={20} />
 					<nav className="flex flex-col items-center gap-4 py-4">
 						{navItems.map((item) => (
 							<NavigationItem

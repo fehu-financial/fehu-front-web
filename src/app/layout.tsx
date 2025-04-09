@@ -5,7 +5,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Body } from "@/components/layout/body";
 import { Sidebar } from "@/components/layout/sidebar";
-import { LayoutProvider } from "@/context/layout";
+import { LayoutProvider } from "@/core/context/layout";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 

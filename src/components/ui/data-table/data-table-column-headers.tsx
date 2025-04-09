@@ -9,10 +9,9 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
+import { cn } from "@/core/lib/utils";
 
-interface DataTableColumnHeaderProps<TData, TValue>
-	extends React.HTMLAttributes<HTMLDivElement> {
+interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
 	column: Column<TData, TValue>;
 	title: string;
 }
@@ -30,11 +29,7 @@ export function DataTableColumnHeader<TData, TValue>({
 		<div className={cn("flex items-center space-x-2", className)}>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button
-						variant="ghost"
-						size="sm"
-						className="-ml-3 h-8 data-[state=open]:bg-accent"
-					>
+					<Button variant="ghost" size="sm" className="-ml-3 h-8 data-[state=open]:bg-accent">
 						<span>{title}</span>
 						{column.getIsSorted() === "desc" ? (
 							<ArrowDown />

@@ -3,12 +3,7 @@
 import * as React from "react";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
-import {
-	type ChartConfig,
-	ChartContainer,
-	ChartTooltip,
-	ChartTooltipContent,
-} from "@/components/ui/chart";
+import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 const chartData = [
 	{ month: "January", desktop: 186 },
@@ -51,10 +46,7 @@ const PortfolioChart = () => {
 					tickMargin={8}
 					tickFormatter={(value) => value.slice(0, 3)}
 				/>
-				<ChartTooltip
-					cursor={false}
-					content={<ChartTooltipContent hideLabel />}
-				/>
+				<ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
 				<Line
 					dataKey="desktop"
 					type="natural"

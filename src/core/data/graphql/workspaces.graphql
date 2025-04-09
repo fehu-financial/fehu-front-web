@@ -1,0 +1,50 @@
+query GetWorkspaces {
+	workspaces {
+		id
+		title
+		description
+		type
+		users {
+			id
+			name
+			email
+			role
+		}
+		createdAt
+		updatedAt
+	}
+}
+
+query GetWorkspaceById($id: ID!, $type: WorkspaceType!) {
+	workspace(id: $id, type: $type) {
+		id
+		title
+		description
+		type
+		users {
+			id
+			name
+			email
+			role
+		}
+		createdAt
+		updatedAt
+	}
+}
+
+mutation CreateWorkspace($data: CreateWorkspaceInput!) {
+	createWorkspace(data: $data) {
+		id
+		title
+		description
+		type
+		users {
+			id
+			name
+			email
+			role
+		}
+		createdAt
+		updatedAt
+	}
+}
