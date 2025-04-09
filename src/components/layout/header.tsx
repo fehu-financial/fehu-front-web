@@ -28,7 +28,7 @@ export function Header({ className }: HeaderProps) {
 		<header
 			className={cn(
 				className,
-				"flex flex-row w-full justify-between shadow-sm p-4 sm:px-6 lg:px-8",
+				"flex flex-row w-full justify-between shadow-xs p-4 sm:px-6 lg:px-8",
 			)}
 		>
 			<div className="flex items-center">

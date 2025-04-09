@@ -18,7 +18,7 @@ const LinkCard = ({ title, subtitle, href }: LinkCardProps) => {
 
 	return (
 		<Card
-			className="flex-1 flex items-center justify-between cursor-pointer hover:bg-accent"
+			className="flex-row items-center justify-between w-full cursor-pointer hover:bg-accent"
 			onClick={handleRouting}
 		>
 			<div>
