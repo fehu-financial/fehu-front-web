@@ -13,35 +13,41 @@ import {
 
 import { useLayout } from "@/hooks/use-layout";
 import { cn } from "@/lib/utils";
-import { Bell, ChevronDown, Menu, MoonIcon, SunIcon } from "lucide-react";
+import { Bell, ChevronDown, Menu, MoonIcon, SunIcon, User } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { useSidebar } from "../ui/sidebar";
 
 interface HeaderProps {
 	className?: string;
 }
 
 export function Header({ className }: HeaderProps) {
-	const { isDarkMode, toggleDarkMode, toggleMobileSidebar } = useLayout();
+	const { isDarkMode, toggleDarkMode } = useLayout();
+	const { toggleSidebar, isMobile } = useSidebar();
 
 	return (
 		<header
 			className={cn(
 				className,
-				"flex flex-row w-full justify-between shadow-xs p-4 sm:px-6 lg:px-8",
+				"sticky top-0 z-50 flex flex-row w-full bg-background justify-between shadow-xs p-4 sm:px-6 lg:px-8",
 			)}
 		>
-			<div className="flex items-center">
-				<Button
-					variant="ghost"
-					size="icon"
-					className="lg:hidden mr-2"
-					onClick={toggleMobileSidebar}
-				>
-					<Menu className="h-6 w-6" />
-				</Button>
-			</div>
-			<div className="flex items-center space-x-4">
+			{isMobile ? (
+				<div className="flex items-center">
+					<Button
+						variant="ghost"
+						size="icon"
+						className=" mr-2"
+						onClick={toggleSidebar}
+					>
+						<Menu className="h-6 w-6" />
+					</Button>
+				</div>
+			) : (
+				<div />
+			)}
+			<div className="ml-auto flex items-center gap-2">
 				<Button variant="ghost" size="icon" onClick={toggleDarkMode}>
 					{isDarkMode ? (
 						<SunIcon className="h-6 w-6 text-yellow-500" />
@@ -53,7 +59,9 @@ export function Header({ className }: HeaderProps) {
 					<PopoverTrigger asChild>
 						<Button variant="ghost" size="icon" className="relative">
 							<Bell className="h-6 w-6" />
-							<Badge variant="dot">1</Badge>
+							<Badge className="!bg-red-800" variant="dot">
+								1
+							</Badge>
 						</Button>
 					</PopoverTrigger>
 					<PopoverContent>
@@ -82,7 +90,7 @@ export function Header({ className }: HeaderProps) {
 				{/* User Menu */}
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" className="ml-4 p-2 flex items-center">
+						<Button variant="ghost" className="flex items-center gap-2 px-2">
 							<Avatar className="h-8 w-8">
 								<AvatarImage
 									className="object-cover"
@@ -91,20 +99,25 @@ export function Header({ className }: HeaderProps) {
 								<AvatarFallback>ML</AvatarFallback>
 							</Avatar>
 
-							<span className="ml-2 text-md font-medium hidden sm:inline-block">
-								Monkey D. Luffy
-							</span>
-							<ChevronDown className="ml-2 h-4 w-4" />
+							<div className="hidden flex-col items-start sm:flex">
+								<span className="text-sm font-medium">Monkey D. Luffy</span>
+							</div>
+							<ChevronDown className="h-4 w-4" />
 						</Button>
 					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
+					<DropdownMenuContent align="end" className="w-56">
 						<DropdownMenuLabel>My Account</DropdownMenuLabel>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>Profile</DropdownMenuItem>
+						<DropdownMenuItem>
+							<User className="mr-2 h-4 w-4" />
+							<span>Profile</span>
+						</DropdownMenuItem>
 						<DropdownMenuItem>Settings</DropdownMenuItem>
 						<DropdownMenuItem>Billing</DropdownMenuItem>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>Log out</DropdownMenuItem>
+						<DropdownMenuItem className="text-destructive">
+							Log out
+						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>
