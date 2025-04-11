@@ -2,6 +2,9 @@
 
 import { useLayout } from "@/hooks/use-layout";
 import { cn } from "@/lib/utils";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 type BodyProps = {
 	className?: string;
@@ -10,10 +13,12 @@ type BodyProps = {
 
 export function Body({ children, className }: BodyProps) {
 	const { isDarkMode } = useLayout();
+
 	return (
 		<body
 			className={cn(
-				"grid lg:grid-cols-[80px_1fr] grid-cols-1 grid-rows-[70px_1fr] h-full antialiased",
+				inter.variable,
+				"h-full antialiased",
 				isDarkMode ? "dark" : "light",
 				className,
 			)}
