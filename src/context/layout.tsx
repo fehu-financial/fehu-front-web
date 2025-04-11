@@ -12,7 +12,7 @@ export interface LayoutContextProps {
 }
 
 export const LayoutContext = createContext<LayoutContextProps | undefined>({
-	isDarkMode: false,
+	isDarkMode: true,
 	isMobileSidebarOpen: false,
 	toggleDarkMode: () => {},
 	toggleMobileSidebar: () => {},
