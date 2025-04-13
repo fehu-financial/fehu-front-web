@@ -1,3 +1,4 @@
+import { getUserInfo } from "@/actions/get-user";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -50,6 +51,9 @@ export async function GET(req: Request) {
 		}
 
 		const { access_token, expires_in } = await cognitoResponse.json();
+
+		const user = await getUserInfo(access_token);
+
 		const response = NextResponse.redirect(origin);
 
 		const cookieOptions = {
@@ -61,6 +65,7 @@ export async function GET(req: Request) {
 		} as const;
 
 		response.cookies.set("access_token", access_token, cookieOptions);
+		response.cookies.set("user", JSON.stringify(user));
 
 		return response;
 	} catch (error) {
