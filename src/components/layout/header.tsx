@@ -11,9 +11,18 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import type { User } from "@/actions/get-user";
+import useCookies from "@/hooks/use-cookies";
 import { useLayout } from "@/hooks/use-layout";
 import { cn } from "@/lib/utils";
-import { Bell, ChevronDown, Menu, MoonIcon, SunIcon, User } from "lucide-react";
+import {
+	Bell,
+	ChevronDown,
+	Menu,
+	MoonIcon,
+	SunIcon,
+	UserIcon,
+} from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { useSidebar } from "../ui/sidebar";
@@ -25,6 +34,7 @@ interface HeaderProps {
 export function Header({ className }: HeaderProps) {
 	const { isDarkMode, toggleDarkMode } = useLayout();
 	const { toggleSidebar, isMobile } = useSidebar();
+	const { value: user } = useCookies<User | null>("user", null, "json");
 
 	return (
 		<header
@@ -92,15 +102,15 @@ export function Header({ className }: HeaderProps) {
 					<DropdownMenuTrigger asChild>
 						<Button variant="ghost" className="flex items-center gap-2 px-2">
 							<Avatar className="h-8 w-8">
-								<AvatarImage
-									className="object-cover"
-									src="https://sm.ign.com/ign_br/screenshot/default/blob_hbbk.jpg"
-								/>
-								<AvatarFallback>ML</AvatarFallback>
+								<AvatarImage className="object-cover" src={user?.avatar} />
+								<AvatarFallback>{user?.name[0]}</AvatarFallback>
 							</Avatar>
 
-							<div className="hidden flex-col items-start sm:flex">
-								<span className="text-sm font-medium">Monkey D. Luffy</span>
+							<div className="hidden flex-col items-baseline justify-start sm:flex max-w-24">
+								<span className="text-sm font-medium">{user?.name}</span>
+								<span className="text-xs text-muted-foreground w-full truncate ">
+									{user?.email}
+								</span>
 							</div>
 							<ChevronDown className="h-4 w-4" />
 						</Button>
@@ -109,7 +119,7 @@ export function Header({ className }: HeaderProps) {
 						<DropdownMenuLabel>My Account</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>
-							<User className="mr-2 h-4 w-4" />
+							<UserIcon className="mr-2 h-4 w-4" />
 							<span>Profile</span>
 						</DropdownMenuItem>
 						<DropdownMenuItem>Settings</DropdownMenuItem>
