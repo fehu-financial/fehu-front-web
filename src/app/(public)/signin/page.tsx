@@ -6,6 +6,7 @@ import { AlertCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const mappedErrors: Record<string, string> = {
 	missing_code:
@@ -13,21 +14,16 @@ const mappedErrors: Record<string, string> = {
 };
 
 export default function SignIn() {
-	const searchParams = useSearchParams();
-	const error = searchParams.get("error");
-
 	return (
 		<div className="flex min-h-svh items-center justify-center bg-background px-4 py-10">
 			<div className="mx-auto w-full max-w-sm space-y-6 rounded-lg border border-border bg-card p-8 shadow-sm">
-				{error && (
-					<Alert variant="destructive">
-						<AlertCircle className="h-4 w-4" />
-						<AlertTitle>Error</AlertTitle>
-						<AlertDescription>
-							{mappedErrors[error] || "Oops! Algo deu errado."}
-						</AlertDescription>
-					</Alert>
-				)}
+				<Suspense
+					fallback={
+						<div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+					}
+				>
+					<SigninError />
+				</Suspense>
 				<div className="flex flex-col items-center space-y-2 text-center">
 					<Image
 						className="dark:invert"
@@ -78,5 +74,22 @@ export default function SignIn() {
 				</div>
 			</div>
 		</div>
+	);
+}
+
+function SigninError() {
+	const searchParams = useSearchParams();
+	const error = searchParams.get("error");
+
+	return (
+		error && (
+			<Alert variant="destructive">
+				<AlertCircle className="h-4 w-4" />
+				<AlertTitle>Error</AlertTitle>
+				<AlertDescription>
+					{mappedErrors[error] || "Oops! Algo deu errado."}
+				</AlertDescription>
+			</Alert>
+		)
 	);
 }

@@ -10,39 +10,53 @@ type UseCookieReturn<T> = {
 export default function useCookie<T>(
 	name: string,
 	defaultValue: T,
-	type?: "json" | "base64" | "string",
+	type: "json" | "base64" | "string" = "string",
 ): UseCookieReturn<T> {
+	const parseCookie = (cookie: string | undefined): T => {
+		if (!cookie) return defaultValue;
+		try {
+			if (type === "base64") {
+				return JSON.parse(atob(cookie)) as T;
+			}
+			if (type === "json") {
+				return JSON.parse(cookie) as T;
+			}
+			return cookie as T;
+		} catch (error) {
+			console.error(`Failed to parse cookie "${name}":`, error);
+			return defaultValue;
+		}
+	};
+
 	const [value, setValue] = useState<T>(() => {
 		const cookie = Cookies.get(name);
-		console.log("cookie", cookie);
-		const parsedCookie: T =
-			type === "base64"
-				? atob(cookie || "")
-				: type === "json"
-					? JSON.parse(cookie || "")
-					: cookie;
-
-		if (parsedCookie) return parsedCookie;
-		if (!defaultValue || defaultValue === null) return defaultValue;
-
-		// const parsedDefaultValue = btoa(JSON.stringify(defaultValue));
-		// Cookies.set(name, parsedDefaultValue);
-		return defaultValue;
+		return parseCookie(cookie);
 	});
 
 	const setCookie = useCallback(
 		(newValue: T, options?: Cookies.CookieAttributes) => {
-			if (!newValue || newValue === null) return;
-			Cookies.set(name, btoa(JSON.stringify(newValue)), options);
-			setValue(newValue);
+			try {
+				let serializedValue: string;
+				if (type === "base64") {
+					serializedValue = btoa(JSON.stringify(newValue));
+				} else if (type === "json") {
+					serializedValue = JSON.stringify(newValue);
+				} else {
+					serializedValue = String(newValue);
+				}
+				Cookies.set(name, serializedValue, options);
+				setValue(newValue);
+			} catch (error) {
+				console.error(`Failed to set cookie "${name}":`, error);
+			}
 		},
-		[name],
+		[name, type],
 	);
 
 	const removeCookie = useCallback(() => {
 		Cookies.remove(name);
-		setCookie(defaultValue);
-	}, [name, defaultValue, setCookie]);
+		setValue(defaultValue);
+	}, [name, defaultValue]);
 
 	return { value, setCookie, removeCookie };
 }
