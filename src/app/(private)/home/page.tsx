@@ -1,5 +1,8 @@
 "use client";
+
+import type { User } from "@/actions/get-user";
 import { type CardTheme, MotionCard } from "@/components/ui/motion-card";
+import useCookies from "@/hooks/use-cookies";
 import { motion } from "motion/react";
 
 const financialData = [
@@ -48,10 +51,11 @@ const financialData = [
 ];
 
 export default function Home() {
+	const user = useCookies<User | null>("user", null, "json");
 	const currentHour = new Date().getHours();
 	const greeting =
 		currentHour < 12 ? "Bom dia" : currentHour < 18 ? "Boa tarde" : "Boa noite";
-	const username = "Usuário";
+	const username = user.value?.name;
 
 	const containerVariants = {
 		hidden: { opacity: 0 },
@@ -71,7 +75,7 @@ export default function Home() {
 					<div className="flex flex-col items-center space-y-4 text-center">
 						<div className="space-y-2">
 							<h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-								{greeting}, {username}!
+								{greeting}, {username?.split(" ").at(0)?.toUpperCase()}!
 							</h1>
 							<p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
 								Estamos empolgados para ajudá-lo a assumir o controle de suas
