@@ -53,7 +53,7 @@ export default function Workspaces() {
 		const matchesSearch =
 			workspace.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			workspace.description.toLowerCase().includes(searchQuery.toLowerCase());
-		const matchesType = typeFilter.includes(workspace.type);
+		const matchesType = typeFilter.includes(workspace.type as WorkspaceType);
 		const matchesTab =
 			currentTab === "archived" ? workspace.archived : !workspace.archived;
 
