@@ -1,4 +1,4 @@
-import { getMenuData } from "@/actions/get-menu";
+import { getMenuData } from "@/actions/menu";
 import { SidebarMenu as SidebarMenuComponent } from "@/components/ui/sidebar";
 import React from "react";
 import { SidebarMenuItem } from "./sidebar-menu-item";
