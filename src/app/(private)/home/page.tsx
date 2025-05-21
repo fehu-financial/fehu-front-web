@@ -1,6 +1,6 @@
 "use client";
 
-import type { User } from "@/actions/get-user";
+import type { User } from "@/actions/user";
 import { type CardTheme, MotionCard } from "@/components/ui/motion-card";
 import useCookies from "@/hooks/use-cookies";
 import { motion } from "motion/react";

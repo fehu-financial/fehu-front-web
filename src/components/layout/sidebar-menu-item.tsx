@@ -1,6 +1,6 @@
 "use client";
 
-import type { MenuItem } from "@/actions/get-menu";
+import type { MenuItem } from "@/actions/menu";
 import {
 	SidebarMenuButton,
 	SidebarMenuItem as SidebarMenuItemComponent,

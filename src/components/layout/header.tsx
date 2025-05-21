@@ -11,7 +11,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import type { User } from "@/actions/get-user";
+import type { User } from "@/actions/user";
 import useCookies from "@/hooks/use-cookies";
 import { useLayout } from "@/hooks/use-layout";
 import { cn } from "@/lib/utils";

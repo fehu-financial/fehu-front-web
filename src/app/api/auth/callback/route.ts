@@ -1,4 +1,4 @@
-import { getUserInfo } from "@/actions/get-user";
+import { getUserInfo } from "@/actions/user";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
