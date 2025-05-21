@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Body } from "@/components/layout/body";
-import { LayoutProvider } from "@/context/layout";
 
 export const metadata: Metadata = {
 	title: "Fehu Finances",
@@ -15,9 +14,7 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
 	return (
 		<html lang="en">
-			<LayoutProvider>
-				<Body>{children}</Body>
-			</LayoutProvider>
+			<Body>{children}</Body>
 		</html>
 	);
 }
