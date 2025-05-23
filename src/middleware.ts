@@ -27,6 +27,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
 	matcher: [
-		"/((?!api|_next/static|_next/image|favicon.ico|fehu-logo.svg|sitemap.xml|robots.txt).*)",
+		"/((?!api|_next/static|_next/image|favicon.ico|fehu-logo.svg|sitemap.xml|robots.txt|manifest.webmanifest|sw.js|apple-touch-icon.png|icon-192x192.png|icon-512x512.png|icon-192x192-maskable.png|icon-512x512-maskable.png|images/).*)",
 	],
 };

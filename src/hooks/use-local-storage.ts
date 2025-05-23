@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 function useLocalStorage<T>(
 	key: string,
@@ -8,7 +10,7 @@ function useLocalStorage<T>(
 			const storedValue = localStorage.getItem(key);
 			return storedValue ? (JSON.parse(storedValue) as T) : defaultValue;
 		} catch (error) {
-			console.error(`Error reading localStorage key "${key}":`, error);
+			console.warn(`Error reading localStorage key "${key}":`, error);
 			return defaultValue;
 		}
 	});
