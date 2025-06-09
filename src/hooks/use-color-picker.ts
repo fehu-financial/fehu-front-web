@@ -1,8 +1,12 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
-import { isValidHexColor } from "../utils/color-utils";
-import type { ColorState } from "../types/color-picker";
+import { isValidHexColor } from "@/lib/color-utils";
+import { useCallback, useEffect, useState } from "react";
+
+interface ColorState {
+	hex: string;
+	isValid: boolean;
+}
 
 export function useColorPicker(
 	initialColor = "#3B82F6",
