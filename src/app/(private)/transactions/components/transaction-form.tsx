@@ -45,7 +45,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { creditCards } from "./credit-cards";
-import { categories, recurrencies } from "./properties";
+import { recurrencies } from "./properties";
 
 export default function TransactionForm() {
 	const [loading, setLoading] = useState(false);
@@ -254,39 +254,6 @@ export default function TransactionForm() {
 									render={({ field }) => (
 										<FormItem className="w-full">
 											<FormLabel>Categoria</FormLabel>
-											{/*<Select
-												onValueChange={field.onChange}
-												defaultValue={field.value}
-											>
-												 <FormControl>
-													<SelectTrigger>
-														<SelectValue placeholder="Selecione uma categoria" />
-													</SelectTrigger>
-												</FormControl>
-												<SelectContent>
-													<div className="grid grid-cols-2 gap-2 p-2">
-														{categories.map((category) => (
-															<SelectItem
-																key={category.id}
-																value={category.id}
-																className="flex items-center rounded-lg cursor-pointer p-2 hover:bg-accent w-full"
-															>
-																<div className="flex space-x-2 items-center">
-																	<div
-																		className={cn(
-																			"rounded-full p-1.5 font-bold",
-																			category?.color,
-																		)}
-																	>
-																		{category && <category.icon size={16} />}
-																	</div>
-																	<span>{category?.label}</span>
-																</div>
-															</SelectItem>
-														))}
-													</div>
-												</SelectContent>
-											</Select> */}
 											<CategorySelect
 												placeholder="Selecione uma categoria"
 												onValueChange={field.onChange}

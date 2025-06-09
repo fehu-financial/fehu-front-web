@@ -47,7 +47,12 @@ export interface Transaction {
 	payment?: {
 		amount: number;
 		paidAt?: Date;
-		paidBy?: string;
+		paidBy?: {
+			id: string;
+			name: string;
+			email: string;
+			avatar?: string;
+		};
 		receipt?: string;
 		lateFees?: number;
 		paymentMethod?: PaymentMethod;
@@ -55,7 +60,12 @@ export interface Transaction {
 	tags: string[];
 	origin?: {
 		planId: string;
-		workspacePublicId: string;
+		workspace: {
+			id: string;
+			title: string;
+			color?: string;
+			avatar?: string;
+		};
 	};
 }
 
