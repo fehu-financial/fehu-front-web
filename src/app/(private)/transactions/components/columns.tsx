@@ -12,6 +12,11 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 import Formatter from "@/lib/formatter";
 import { cn } from "@/lib/utils";
 import { PaymentMethod, type Transaction } from "@/types/transaction";
@@ -64,22 +69,33 @@ const columns: ColumnDef<Transaction>[] = [
 		),
 		cell: ({ row }) => {
 			const tags = row.original.tags || [];
+			const workspaceColor = row.original.origin?.workspace?.color || "#6b7280";
+
 			return (
-				<div className="flex flex-col space-y-1">
-					<span className="text-base font-semibold">{row.original.title}</span>
-					<span className="text-xs text-muted-foreground">
-						{row.original.description}
-					</span>
-					{tags.length > 0 && (
-						<div className="flex flex-wrap gap-1 mt-1">
-							{tags.map((tag) => (
-								<Badge key={tag} variant="secondary" className="text-xs">
-									<TagIcon size={10} className="mr-1" />
-									{tag}
-								</Badge>
-							))}
-						</div>
-					)}
+				<div className="flex">
+					{/* Barra vertical sutil do workspace */}
+					<div
+						className="w-1 mr-3 rounded-full flex-shrink-0"
+						style={{ backgroundColor: workspaceColor }}
+					/>
+					<div className="flex flex-col space-y-1">
+						<span className="text-base font-semibold">
+							{row.original.title}
+						</span>
+						<span className="text-xs text-muted-foreground">
+							{row.original.description}
+						</span>
+						{tags.length > 0 && (
+							<div className="flex flex-wrap gap-1 mt-1">
+								{tags.map((tag) => (
+									<Badge key={tag} variant="secondary" className="text-xs">
+										<TagIcon size={10} className="mr-1" />
+										{tag}
+									</Badge>
+								))}
+							</div>
+						)}
+					</div>
 				</div>
 			);
 		},
@@ -236,22 +252,6 @@ const columns: ColumnDef<Transaction>[] = [
 							{/* Informações extras do pagamento */}
 							{row.original.payment && (
 								<div className="flex flex-col items-end text-[10px] text-muted-foreground mt-0.5 w-full">
-									{row.original.origin?.planId && (
-										<span>
-											Workspace:{" "}
-											<span className="font-medium">
-												{row.original.origin.planId}
-											</span>
-										</span>
-									)}
-									{row.original.payment.paidBy && (
-										<span>
-											Pago por:{" "}
-											<span className="font-medium">
-												{row.original.payment.paidBy}
-											</span>
-										</span>
-									)}
 									{typeof row.original.payment.lateFees === "number" &&
 										row.original.payment.lateFees > 0 && (
 											<span>
@@ -261,6 +261,36 @@ const columns: ColumnDef<Transaction>[] = [
 												</span>
 											</span>
 										)}
+									{row.original.payment.paidBy && (
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<div className="flex items-center gap-1">
+													<span>Pago por:</span>
+													{row.original.payment.paidBy?.avatar ? (
+														<img
+															src={row.original.payment.paidBy.avatar}
+															alt={
+																row.original.payment.paidBy?.name ||
+																row.original.payment.paidBy?.email ||
+																"User"
+															}
+															width={12}
+															height={12}
+															className="rounded-full"
+														/>
+													) : (
+														<span className="font-medium">
+															{row.original.payment.paidBy?.name.charAt(0)}
+														</span>
+													)}
+												</div>
+											</TooltipTrigger>
+											<TooltipContent>
+												{row.original.payment.paidBy?.name ||
+													row.original.payment.paidBy?.email}
+											</TooltipContent>
+										</Tooltip>
+									)}
 								</div>
 							)}
 						</div>
