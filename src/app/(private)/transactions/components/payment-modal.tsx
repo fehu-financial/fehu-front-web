@@ -70,7 +70,7 @@ export function PaymentModal({
 		setLoading(true);
 		try {
 			await registerPayment({
-				workspaceId: transaction.origin?.workspacePublicId || "",
+				workspaceId: transaction.origin?.workspace.id || "",
 				planId: transaction.origin?.planId || "",
 				transactionId: transaction.id,
 				payment: {
