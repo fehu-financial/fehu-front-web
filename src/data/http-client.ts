@@ -15,5 +15,11 @@ export const fetchWithAuth = async <T = unknown>(
 	if (!response.ok) {
 		throw new Error(`Error: ${response.statusText}`);
 	}
+
+	const contentLength = response.headers.get("content-length");
+	if (contentLength === "0" || response.status === 204) {
+		return null as T;
+	}
+
 	return response.json();
 };
