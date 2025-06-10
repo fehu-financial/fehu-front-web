@@ -18,6 +18,7 @@ export function PWAInstallPrompt() {
 		showInstallPrompt,
 		canInstall,
 		isInstalled,
+		isSupported,
 		install,
 		getBrowserInfo,
 		hideInstallPrompt,
@@ -25,7 +26,8 @@ export function PWAInstallPrompt() {
 
 	const browserInfo = getBrowserInfo();
 
-	if (!showInstallPrompt || isInstalled || !canInstall) {
+	// Show prompt if PWA is supported, not installed
+	if (!showInstallPrompt || isInstalled || !isSupported) {
 		return null;
 	}
 
@@ -75,7 +77,7 @@ export function PWAInstallPrompt() {
 					</CardHeader>
 					<CardContent className="space-y-3">
 						{/* Install button for supported browsers */}
-						{!browserInfo.isIOS ? (
+						{!browserInfo.isIOS && canInstall ? (
 							<Button onClick={handleInstall} className="w-full" size="sm">
 								<Download className="w-4 h-4 mr-2" />
 								Instalar Agora
@@ -84,15 +86,23 @@ export function PWAInstallPrompt() {
 							<div className="space-y-2">
 								<Button variant="outline" className="w-full" size="sm" disabled>
 									<Share className="w-4 h-4 mr-2" />
-									Adicionar à Tela Inicial
+									{browserInfo.isIOS
+										? "Adicionar à Tela Inicial"
+										: "Instalar App"}
 								</Button>
-								<p className="text-xs text-muted-foreground text-center">
-									Toque em{" "}
-									<span className="inline-flex items-center">
-										<Share className="w-3 h-3 mx-1" />
-									</span>{" "}
-									e depois "Adicionar à Tela Inicial"
-								</p>
+								{browserInfo.isIOS ? (
+									<p className="text-xs text-muted-foreground text-center">
+										Toque em{" "}
+										<span className="inline-flex items-center">
+											<Share className="w-3 h-3 mx-1" />
+										</span>{" "}
+										e depois "Adicionar à Tela Inicial"
+									</p>
+								) : (
+									<p className="text-xs text-muted-foreground text-center">
+										Use o menu do navegador para instalar o app
+									</p>
+								)}
 							</div>
 						)}
 
@@ -122,7 +132,7 @@ export function PWAInstallPrompt() {
 							>
 								Agora não
 							</Button>
-							{!browserInfo.isIOS && (
+							{!browserInfo.isIOS && canInstall && (
 								<Button size="sm" onClick={handleInstall} className="flex-1">
 									Instalar
 								</Button>

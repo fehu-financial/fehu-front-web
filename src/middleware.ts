@@ -5,6 +5,17 @@ const publicRoutes = ["/signin"];
 export function middleware(request: NextRequest) {
 	const nextUrl = request.nextUrl.clone();
 
+	// Skip service worker and PWA files completely
+	if (
+		nextUrl.pathname === "/sw.js" ||
+		nextUrl.pathname === "/manifest.webmanifest" ||
+		nextUrl.pathname.startsWith("/api/") ||
+		nextUrl.pathname.startsWith("/_next/") ||
+		nextUrl.pathname.startsWith("/images/")
+	) {
+		return NextResponse.next();
+	}
+
 	if (publicRoutes.includes(nextUrl.pathname)) {
 		return NextResponse.next();
 	}
@@ -14,12 +25,18 @@ export function middleware(request: NextRequest) {
 
 	if (!isAuthenticated) {
 		nextUrl.pathname = "/signin";
-		return NextResponse.redirect(nextUrl);
+		const response = NextResponse.redirect(nextUrl);
+		// Add header to help service worker identify auth redirects
+		response.headers.set("x-middleware-redirect", "auth");
+		return response;
 	}
 
 	if (nextUrl.pathname === "/") {
 		nextUrl.pathname = "/home";
-		return NextResponse.redirect(nextUrl);
+		const response = NextResponse.redirect(nextUrl);
+		// Add header to help service worker identify home redirects
+		response.headers.set("x-middleware-redirect", "home");
+		return response;
 	}
 
 	return NextResponse.next();
