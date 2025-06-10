@@ -1,124 +1,91 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { type PWACapabilities, pwaService } from "@/services/pwa-service";
+import { useCallback, useEffect, useState } from "react";
 
-interface PWAInstallPrompt extends Event {
-	prompt(): Promise<void>;
-	userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
+interface WindowWithMSStream extends Window {
+	MSStream?: unknown;
+}
+
+export interface BrowserInfo {
+	isIOS: boolean;
+	isAndroid: boolean;
+	isSafari: boolean;
+	isChrome: boolean;
+	isFirefox: boolean;
+	isEdge: boolean;
+	isMobile: boolean;
+	isDesktop: boolean;
+}
+
+export interface InstallInstructions {
+	title: string;
+	steps: string[];
 }
 
 export function usePWA() {
-	const [isSupported, setIsSupported] = useState(false);
-	const [isInstalled, setIsInstalled] = useState(false);
-	const [canInstall, setCanInstall] = useState(false);
-	const [installPrompt, setInstallPrompt] = useState<PWAInstallPrompt | null>(
-		null,
+	const [capabilities, setCapabilities] = useState<PWACapabilities>(() =>
+		pwaService.getCapabilities(),
 	);
-	const [isOnline, setIsOnline] = useState(true);
+	const [showInstallPrompt, setShowInstallPrompt] = useState(false);
 
+	// Update capabilities when they change
 	useEffect(() => {
-		// Check PWA support
-		const checkSupport = () => {
-			const hasServiceWorker = "serviceWorker" in navigator;
-			const hasManifest = "manifest" in document.documentElement;
-			const hasPushManager = "PushManager" in window;
-
-			setIsSupported(hasServiceWorker && hasManifest);
-			return hasServiceWorker && hasManifest && hasPushManager;
+		const handleCapabilitiesChange = (data: Record<string, unknown>) => {
+			if (data.capabilities) {
+				setCapabilities(data.capabilities as PWACapabilities);
+			}
 		};
 
-		// Check if app is installed
-		const checkInstalled = () => {
-			const isStandalone =
-				window.matchMedia("(display-mode: standalone)").matches ||
-				(window.navigator as any).standalone === true;
-			setIsInstalled(isStandalone);
-			return isStandalone;
-		};
-
-		// Listen for install prompt
-		const handleBeforeInstallPrompt = (e: Event) => {
-			e.preventDefault();
-			setInstallPrompt(e as PWAInstallPrompt);
-			setCanInstall(true);
-		};
-
-		// Listen for app installed
-		const handleAppInstalled = () => {
-			setCanInstall(false);
-			setInstallPrompt(null);
-			setIsInstalled(true);
-		};
-
-		// Listen for online/offline status
-		const handleOnline = () => setIsOnline(true);
-		const handleOffline = () => setIsOnline(false);
-
-		checkSupport();
-		checkInstalled();
-		setIsOnline(navigator.onLine);
-
-		window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-		window.addEventListener("appinstalled", handleAppInstalled);
-		window.addEventListener("online", handleOnline);
-		window.addEventListener("offline", handleOffline);
+		pwaService.addEventListener(
+			"pwaCapabilitiesChanged",
+			handleCapabilitiesChange,
+		);
 
 		return () => {
-			window.removeEventListener(
-				"beforeinstallprompt",
-				handleBeforeInstallPrompt,
+			pwaService.removeEventListener(
+				"pwaCapabilitiesChanged",
+				handleCapabilitiesChange,
 			);
-			window.removeEventListener("appinstalled", handleAppInstalled);
-			window.removeEventListener("online", handleOnline);
-			window.removeEventListener("offline", handleOffline);
 		};
 	}, []);
 
-	const install = async () => {
-		if (!installPrompt) return false;
+	// Auto-show install prompt with delay
+	useEffect(() => {
+		if (capabilities.canInstall && !capabilities.isInstalled) {
+			const timer = setTimeout(() => {
+				setShowInstallPrompt(true);
+			}, 2000);
 
-		try {
-			await installPrompt.prompt();
-			const choice = await installPrompt.userChoice;
-
-			if (choice.outcome === "accepted") {
-				setCanInstall(false);
-				setInstallPrompt(null);
-				return true;
-			}
-			return false;
-		} catch (error) {
-			console.error("Installation failed:", error);
-			return false;
+			return () => clearTimeout(timer);
 		}
-	};
+	}, [capabilities.canInstall, capabilities.isInstalled]);
 
-	const registerServiceWorker = async () => {
-		if (!isSupported) return false;
-
-		try {
-			const registration = await navigator.serviceWorker.register("/sw.js", {
-				scope: "/",
-				updateViaCache: "none",
-			});
-
-			console.log("Service Worker registered:", registration);
-			return registration;
-		} catch (error) {
-			console.error("Service Worker registration failed:", error);
-			return false;
+	// Get browser information
+	const getBrowserInfo = useCallback((): BrowserInfo => {
+		if (typeof window === "undefined") {
+			return {
+				isIOS: false,
+				isAndroid: false,
+				isSafari: false,
+				isChrome: false,
+				isFirefox: false,
+				isEdge: false,
+				isMobile: false,
+				isDesktop: true,
+			};
 		}
-	};
 
-	const getBrowserInfo = () => {
 		const userAgent = navigator.userAgent;
 		const isIOS =
-			/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
+			/iPad|iPhone|iPod/.test(userAgent) &&
+			!(window as WindowWithMSStream).MSStream;
 		const isAndroid = /Android/.test(userAgent);
 		const isSafari = /Safari/.test(userAgent) && !/Chrome/.test(userAgent);
 		const isChrome = /Chrome/.test(userAgent);
 		const isFirefox = /Firefox/.test(userAgent);
 		const isEdge = /Edg/.test(userAgent);
+		const isMobile = window.innerWidth < 768;
 
 		return {
 			isIOS,
@@ -127,12 +94,13 @@ export function usePWA() {
 			isChrome,
 			isFirefox,
 			isEdge,
-			isMobile: isIOS || isAndroid,
-			isDesktop: !isIOS && !isAndroid,
+			isMobile,
+			isDesktop: !isMobile,
 		};
-	};
+	}, []);
 
-	const getInstallInstructions = () => {
+	// Get install instructions based on browser
+	const getInstallInstructions = useCallback((): InstallInstructions => {
 		const browser = getBrowserInfo();
 
 		if (browser.isIOS) {
@@ -187,16 +155,37 @@ export function usePWA() {
 				"Confirme a instalação",
 			],
 		};
-	};
+	}, [getBrowserInfo]);
+
+	// Install the PWA
+	const install = useCallback(async (): Promise<boolean> => {
+		try {
+			await pwaService.promptInstall();
+			setShowInstallPrompt(false);
+			return true;
+		} catch (error) {
+			console.error("Installation failed:", error);
+			return false;
+		}
+	}, []);
+
+	// Register service worker
+	const registerServiceWorker = useCallback(async () => {
+		return pwaService.initialize();
+	}, []);
+
+	// Hide install prompt
+	const hideInstallPrompt = useCallback(() => {
+		setShowInstallPrompt(false);
+	}, []);
 
 	return {
-		isSupported,
-		isInstalled,
-		canInstall,
-		isOnline,
+		...capabilities,
+		showInstallPrompt,
 		install,
 		registerServiceWorker,
 		getBrowserInfo,
 		getInstallInstructions,
+		hideInstallPrompt,
 	};
 }

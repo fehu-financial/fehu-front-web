@@ -6,13 +6,7 @@ export const metadata: Metadata = {
 	title: "Fehu Financial",
 	description:
 		"Gerencie investimentos, despesas e tudo mais com Fehu Financial",
-	keywords: [
-		"finanças",
-		"investimentos",
-		"despesas",
-		"controle financeiro",
-		"PWA",
-	],
+	keywords: ["finanças", "investimentos", "despesas", "controle financeiro"],
 	authors: [{ name: "Igor Souza", url: "https://github.com/igorssk" }],
 	creator: "Igor Souza",
 	metadataBase: new URL(
@@ -69,6 +63,18 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
 		<html lang="pt-BR">
 			<head>
 				<link rel="icon" href="/favicon.ico" sizes="any" />
+				<link
+					rel="icon"
+					href="/favicon-16x16.png"
+					type="image/png"
+					sizes="16x16"
+				/>
+				<link
+					rel="icon"
+					href="/favicon-32x32.png"
+					type="image/png"
+					sizes="32x32"
+				/>
 				<link
 					rel="icon"
 					href="/icon-192x192.png"

@@ -36,3 +36,4 @@ next-env.d.ts
 
 settings.json
 certificates
+.scripts
