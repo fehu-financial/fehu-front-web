@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/header";
 import { Main } from "@/components/layout/main";
+import { PWAInstallPrompt } from "@/components/pwa/pwa-install-prompt";
 import "../globals.css";
 import { AppSidebar as Sidebar } from "@/components/layout/sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
 				<Header />
 				<Main>{children}</Main>
 			</SidebarInset>
+			<PWAInstallPrompt />
 		</SidebarProvider>
 	);
 }
