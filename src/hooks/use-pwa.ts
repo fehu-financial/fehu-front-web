@@ -50,16 +50,23 @@ export function usePWA() {
 		};
 	}, []);
 
-	// Auto-show install prompt with delay
+	// Auto-show install prompt with delay and fallback
 	useEffect(() => {
-		if (capabilities.canInstall && !capabilities.isInstalled) {
+		if (capabilities.isSupported && !capabilities.isInstalled) {
 			const timer = setTimeout(() => {
-				setShowInstallPrompt(true);
+				// Show prompt if we can install OR if PWA is supported but not installed
+				if (capabilities.canInstall || !capabilities.isInstalled) {
+					setShowInstallPrompt(true);
+				}
 			}, 2000);
 
 			return () => clearTimeout(timer);
 		}
-	}, [capabilities.canInstall, capabilities.isInstalled]);
+	}, [
+		capabilities.canInstall,
+		capabilities.isInstalled,
+		capabilities.isSupported,
+	]);
 
 	// Get browser information
 	const getBrowserInfo = useCallback((): BrowserInfo => {

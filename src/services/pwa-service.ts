@@ -104,7 +104,9 @@ export class PWAService {
 	private setupEventListeners(): void {
 		if (typeof window === "undefined") return;
 
+		// Listen for install prompt
 		window.addEventListener("beforeinstallprompt", (event) => {
+			console.log("PWA: Install prompt event captured");
 			event.preventDefault();
 			this.installPromptEvent = event as PWAInstallEvent;
 			this.capabilities.canInstall = true;
@@ -113,19 +115,43 @@ export class PWAService {
 			});
 		});
 
+		// Listen for app installation
 		window.addEventListener("appinstalled", () => {
+			console.log("PWA: App installed successfully");
 			this.capabilities.isInstalled = true;
 			this.capabilities.canInstall = false;
+			this.installPromptEvent = null;
 			this.notifyListeners("pwaCapabilitiesChanged", {
 				capabilities: this.capabilities,
 			});
 		});
 
+		// Listen for online/offline changes
+		window.addEventListener("online", () => {
+			this.capabilities.isOnline = true;
+			this.notifyListeners("pwaCapabilitiesChanged", {
+				capabilities: this.capabilities,
+			});
+		});
+
+		window.addEventListener("offline", () => {
+			this.capabilities.isOnline = false;
+			this.notifyListeners("pwaCapabilitiesChanged", {
+				capabilities: this.capabilities,
+			});
+		});
+
+		// Service worker events
 		if ("serviceWorker" in navigator) {
 			navigator.serviceWorker.addEventListener("controllerchange", () => {
+				console.log("PWA: Service worker controller changed");
 				setTimeout(() => {
 					this.checkForUpdates();
 				}, 1000);
+			});
+
+			navigator.serviceWorker.addEventListener("message", (event) => {
+				console.log("PWA: Message from service worker", event.data);
 			});
 		}
 	}
@@ -138,9 +164,35 @@ export class PWAService {
 			return;
 
 		try {
-			await navigator.serviceWorker.register("/sw.js");
+			console.log("PWA: Registering service worker...");
+			const registration = await navigator.serviceWorker.register("/sw.js", {
+				scope: "/",
+			});
+
+			console.log("PWA: Service worker registered successfully", registration);
+
+			// Listen for updates
+			registration.addEventListener("updatefound", () => {
+				console.log("PWA: Service worker update found");
+				const newWorker = registration.installing;
+				if (newWorker) {
+					newWorker.addEventListener("statechange", () => {
+						console.log("PWA: New service worker state:", newWorker.state);
+						if (
+							newWorker.state === "installed" &&
+							navigator.serviceWorker.controller
+						) {
+							// New update available
+							this.notifyListeners("swUpdateAvailable", {});
+						}
+					});
+				}
+			});
+
+			this.capabilities.hasServiceWorker = true;
 		} catch (error) {
-			console.error("Service worker registration failed:", error);
+			console.error("PWA: Service worker registration failed:", error);
+			this.capabilities.hasServiceWorker = false;
 		}
 	}
 
